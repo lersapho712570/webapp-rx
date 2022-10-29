@@ -9,7 +9,7 @@
   <body>
     <div class="container">
       <header>
-        <h1>Webapp RX Version : 3.1</h1>
+        <h1>Webapp TX Version : 3.1</h1>
         <p>Webapp with Python Flask</p>
         <nav class="site-nav">
           <ul class="group">
@@ -28,7 +28,7 @@
             <p>OS-Distro : {{ var['os-base'] }}</p>
             <p>OS-Version : {{var['os-version']}}</p>
             <p>Mount [/tmp/data] : {{var['mount']}}</p>
-            <p>docker img : 712570/webapp-rx:3.1</p>
+            <p>docker img : 712570/webapp-tx:3.1</p>
             <p>
               color : <span style="color: {{ color }}"> {{ color }} </span>
             </p>
@@ -48,7 +48,22 @@
         </div>
 
         <div class="sidebar">
-          <p>{{ text }}</p>
+          <div style="padding-top: 20px">
+            <!-- Form -->
+            <form action="" method="POST">
+              <label for="yourMessage">Your Message:</label>
+              <textarea name="MessageBox" id="" cols="30" rows="10"></textarea>
+              <input
+                type="submit"
+                class="page1"
+                name="sendText"
+                value="submit"
+                {{
+                allow
+                }}
+              />
+            </form>
+          </div>
         </div>
 
         <!-- <div class="fixed"></div> -->
