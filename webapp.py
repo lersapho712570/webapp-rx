@@ -17,9 +17,9 @@ bgcolors = [bgcolor1,bgcolor2,bgcolor3]
 bgcolor=random.choice(bgcolors)
 
 
-@app.route('/')
+@app.route('/',methods=['GET','POST'])
 def index():
-
+    
     cmdOS = """ cat /etc/os-release | grep -Ei "^NAME" | awk 'BEGIN{FS="="} {print $2}'  """
     cmdVersion = """ cat /etc/os-release | grep -Ei "^version_id" | awk 'BEGIN{FS="="} {print $2}'  """
 
@@ -50,6 +50,7 @@ def index():
         mount = False
         texts = 'volume not mount'
 
+
     var1 = {
         'name': hostname,
         'ip': ip,
@@ -59,10 +60,22 @@ def index():
         'os-base': subprocess.check_output(cmdOS,shell=True).decode("utf-8").split("\n")[0],
         'os-version': subprocess.check_output(cmdVersion,shell=True).decode("utf-8").split("\n")[0]
     }
+    
+    if request.method == 'POST':
+        
+        inputText = request.form.get('MessageBox')
+        print(inputText)
+        if mount:
+            with open('/tmp/data/message.txt','w') as file:
+                file.write(inputText + '\n')            
 
-
-    return render_template('webapp.html', page='Index', var=var1, text=texts, color=color,env_var1=env_var1,env_var2=env_var2,env_var3=env_var3,env_var4=env_var4,bgcolor=bgcolor)
+    if mount:
+        allow = 'enabled'
+    else:
+        allow = 'disabled'
+    
+    return render_template('webapp_write.html', page='Index', var=var1, text=texts, color=color,env_var1=env_var1,env_var2=env_var2,env_var3=env_var3,env_var4=env_var4,bgcolor=bgcolor,allow=allow)
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=30001,host='0.0.0.0')
+    app.run(debug=True,port=30002,host='0.0.0.0')
